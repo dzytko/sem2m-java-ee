@@ -25,7 +25,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>JSP - Calc with bean</title>
 </head>
 <body>
 <p>

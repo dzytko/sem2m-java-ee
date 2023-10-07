@@ -35,7 +35,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>JSP -Calc</title>
 </head>
 <body>
 <p>
