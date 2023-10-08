@@ -27,7 +27,7 @@
                 <td> ${worker.salary} </td>
                 <td> ${worker.companyName} </td>
                 <td><a href="edit/${worker.id}"> Edytuj </a></td>
-                <td><a href="…"> Usuń </a></td>
+                <td><a href="delete/${worker.id}"> Usuń </a></td>
             </tr>
         </c:forEach>
     </table>

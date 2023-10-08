@@ -30,4 +30,9 @@ public class WorkerDao {
                 }
         );
     }
+
+    public void deleteById(int workerId) {
+        String sqlQuery = "DELETE FROM worker WHERE id = ?";
+        template.update(sqlQuery, workerId);
+    }
 }

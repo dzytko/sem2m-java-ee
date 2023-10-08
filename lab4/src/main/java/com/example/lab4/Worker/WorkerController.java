@@ -3,6 +3,7 @@ package com.example.lab4.Worker;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,5 +34,11 @@ public class WorkerController {
         List<Worker> list = workerDao.getAll();
         model.addAttribute("list", list);
         return "viewAll";
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String delete(@PathVariable int id) {
+        workerDao.deleteById(id);
+        return "redirect:/viewAll";
     }
 }
