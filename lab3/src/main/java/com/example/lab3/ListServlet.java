@@ -2,6 +2,7 @@ package com.example.lab3;
 
 import java.io.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -9,10 +10,9 @@ import jakarta.servlet.annotation.*;
 
 @WebServlet(name = "listServlet", value = "/list")
 public class ListServlet extends HttpServlet {
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             String url = "jdbc:mysql://localhost:3306/world?serverTimezone=UTC";
@@ -26,27 +26,19 @@ public class ListServlet extends HttpServlet {
 
             ResultSet rs = st.executeQuery(query);
 
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>List of European Countries</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>List of European Countries</h1>");
-
+            ArrayList<CountryBean> list = new ArrayList<>();
             while (rs.next()) {
-                // Pobierz i wyświetl dane z odpowiednich kolumn
-                String name = rs.getString("name");
-                String code = rs.getString("code");
-                int population = rs.getInt("population");
-
-                out.println("<p>Name: " + name + "</p>");
-                out.println("<p>Code: " + code + "</p>");
-                out.println("<p>Population: " + population + "</p>");
-                out.println("<hr>");
+                CountryBean country = new CountryBean();
+                country.setName(rs.getString("name"));
+                country.setCode(rs.getString("code"));
+                country.setPopulation(rs.getInt("population"));
+                list.add(country);
             }
 
-            out.println("</body>");
-            out.println("</html>");
+            HttpSession session = request.getSession(true);
+            session.setAttribute("list", list);
+
+            response.sendRedirect("countryList.jsp");
 
             rs.close();
             st.close();
@@ -55,15 +47,5 @@ public class ListServlet extends HttpServlet {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Błąd w trakcie obsługi bazy danych.");
         }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-
-    public void destroy() {
     }
 }
