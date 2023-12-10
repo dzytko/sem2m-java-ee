@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student crud</title>
+</head>
+<body>
+<script>
+    function getStudents() {
+        const apiUrl = "students";
+
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                displayStudents(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function displayStudents(students) {
+        const studentsTableBody = document.querySelector('#students-table tbody');
+
+        // Clear previous content
+        studentsTableBody.innerHTML = '';
+
+        // Display students in table
+        if (students.length === 0) {
+            const noDataRow = studentsTableBody.insertRow();
+            const noDataCell = noDataRow.insertCell(0);
+            noDataCell.colSpan = 4;
+            noDataCell.textContent = 'No students available.';
+        } else {
+            students.forEach(student => {
+                const row = studentsTableBody.insertRow();
+                row.insertCell(0).textContent = student.id;
+                row.insertCell(1).textContent = student.name;
+                row.insertCell(2).textContent = student.surname;
+                row.insertCell(3).textContent = student.average;
+                row.insertCell(4).innerHTML = "<a href='edit-student.html?id=" + student.id + "'>Edit</a>";
+                row.insertCell(5).innerHTML = '<button onclick="deleteStudent(' + "'" +student.id + "'" + ')">Delete</button>';
+            });
+        }
+    }
+    function deleteStudent(id) {
+        const apiUrl = "students/" + id;
+
+        fetch(apiUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(data => {
+                getStudents()
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+<h2>Get Students</h2>
+
+<button onclick="getStudents()">Get Students</button>
+
+<table id="students-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Average</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<br>
+<br>
+<a href="add-student.html">Add student</a>
+
+</body>
+</html>

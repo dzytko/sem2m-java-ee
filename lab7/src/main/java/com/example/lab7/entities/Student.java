@@ -11,7 +11,6 @@ import org.hibernate.annotations.UuidGenerator;
 public class Student {
     @Id
     @UuidGenerator
-    // TODO disable serialization
     String id;
 //    @JsonView
     String name;

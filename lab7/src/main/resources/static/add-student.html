@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+</head>
+<body>
+<script>
+    function addStudent() {
+        const apiUrl = 'students';
+        const addStudentForm = document.getElementById('addStudentForm');
+
+        const formData = new FormData(addStudentForm);
+        const studentData = {};
+        formData.forEach((value, key) => {
+            studentData[key] = value;
+        });
+
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(studentData),
+        })
+            .then(data => {
+                displayResult(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function displayResult(result) {
+        const addStudentResult = document.getElementById('addStudentResult');
+        addStudentResult.innerHTML = "Student added successfully."
+    }
+</script>
+
+<h2>Add Student</h2>
+
+<form id="addStudentForm">
+    <a href="/index.html">Go back</a> <br><br>
+
+    <label for="name">Name:</label>
+
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="surname">Surname:</label>
+    <input type="text" id="surname" name="surname" required><br>
+
+    <label for="average">Average:</label>
+    <input type="number" id="average" name="average" step="0.1" required><br>
+
+    <button type="button" onclick="addStudent()">Add Student</button>
+</form>
+
+<div id="addStudentResult"></div>
+</body>
+</html>
