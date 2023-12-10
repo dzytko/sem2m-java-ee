@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: head"></head>
+<body>
+<div th:include="layout :: navigationPanel"></div>
+<div class="container mt-5">
+    <h1 class="text-center">Lista użytkowników</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>UserID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Login</th>
+            <th>Password</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.userid}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.surname}"></td>
+            <td th:text="${user.login}"></td>
+            <td th:text="${user.password}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

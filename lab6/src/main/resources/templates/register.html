@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: head"></head>
+<body>
+<div th:include="layout :: navigationPanel"></div>
+<div class="container mt-5">
+    <h1 class="text-center">Rejestracja</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form th:action="@{/register}" method="POST" th:object="${user}" id="register-form">
+                <div class="form-group">
+                    <label for="name">Imię</label>
+                    <input type="text" class="form-control" id="name" placeholder="Wprowadź imię" th:field="*{name}">
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                          class="error-message">Error Message</span>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Nazwisko</label>
+                    <input type="text" class="form-control" id="surname" placeholder="Wprowadź nazwisko"
+                           th:field="*{surname}">
+                    <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="error-message">Error Message</span>
+                </div>
+                <div class="form-group">
+                    <label for="login">Login</label>
+                    <input type="text" class="form-control" id="login" placeholder="Wprowadź login" th:field="*{login}">
+                    <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"
+                          class="error-message">Error Message</span>
+                </div>
+                <div class="form-group">
+                    <label for="password">Hasło</label>
+                    <input type="password" class="form-control" id="password" placeholder="Wprowadź hasło"
+                           th:field="*{password}">
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message">Error Message</span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Zarejestruj się</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="layout :: footer"></div>
+</body>
+</html>
