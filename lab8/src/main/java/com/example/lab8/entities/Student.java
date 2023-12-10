@@ -13,6 +13,9 @@ public class Student {
     String surname;
     Integer age;
 
+    @Lob
+    byte[] attachment;
+
     @JoinColumn(name = "address_id")
     @OneToOne(cascade = CascadeType.ALL)
     Address address;

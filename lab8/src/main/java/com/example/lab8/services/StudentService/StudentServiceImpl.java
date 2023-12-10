@@ -23,4 +23,9 @@ public class StudentServiceImpl implements StudentService {
                 .map(studentConverter::convert)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<StudentDto> getAllStudentsNoAttachment() {
+        return studentRepository.findAllNoAttachment();
+    }
 }
