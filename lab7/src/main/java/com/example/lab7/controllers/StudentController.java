@@ -1,6 +1,9 @@
 package com.example.lab7.controllers;
 
+import com.example.lab7.dtos.requests.CreateStudentRequest;
+import com.example.lab7.dtos.requests.EditStudentRequest;
 import com.example.lab7.entities.Student;
+import com.example.lab7.exceptions.BadRequestException;
 import com.example.lab7.exceptions.NotFoundException;
 import com.example.lab7.services.StudentService.StudentService;
 import lombok.AllArgsConstructor;
@@ -18,7 +21,7 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<List<Student>> getAll() {
-        return new  ResponseEntity<>(studentService.getStudentList(), HttpStatus.OK);
+        return new ResponseEntity<>(studentService.getStudentList(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
@@ -27,13 +30,36 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> addStudent(@RequestBody CreateStudentRequest request) throws BadRequestException {
+        Student student;
+        try {
+            student = Student.builder()
+                    .name(request.getName())
+                    .surname(request.getSurname())
+                    .average(Float.parseFloat(request.getAverage()))
+                    .build();
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("Average must be a number");
+        }
         studentService.addStudent(student);
+
         return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public  ResponseEntity<Student> updateStudent(@RequestBody Student student) throws NotFoundException {
+    public ResponseEntity<Student> updateStudent(@RequestBody EditStudentRequest request) throws NotFoundException, BadRequestException {
+        Student student;
+        try {
+            student = Student.builder()
+                    .id(request.getId())
+                    .name(request.getName())
+                    .surname(request.getSurname())
+                    .average(Float.parseFloat(request.getAverage()))
+                    .build();
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("Average must be a number");
+        }
+
         studentService.updateStudent(student);
         return new ResponseEntity<>(student, HttpStatus.OK);
     }

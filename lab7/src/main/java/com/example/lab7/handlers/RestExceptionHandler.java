@@ -1,6 +1,7 @@
 package com.example.lab7.handlers;
 
 
+import com.example.lab7.exceptions.BadRequestException;
 import com.example.lab7.exceptions.NotFoundException;
 import lombok.Getter;
 import org.springframework.http.HttpHeaders;
@@ -45,7 +46,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ResponseEntity<Object> handleNotFoundException(NotFoundException ex, WebRequest request) {
         var msg = ex.getLocalizedMessage();
-        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, msg, msg);
+        var apiError = new ApiError(HttpStatus.NOT_FOUND, msg, msg);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), apiError.getStatus(), request);
+    }
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<Object> handleBadRequestException(BadRequestException ex, WebRequest request) {
+        var msg = ex.getLocalizedMessage();
+        var apiError = new ApiError(HttpStatus.BAD_REQUEST, msg, msg);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), apiError.getStatus(), request);
     }
 }
