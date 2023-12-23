@@ -1,6 +1,5 @@
 package com.example.lab6;
 
-import com.example.lab6.entity.User;
 import com.example.lab6.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
